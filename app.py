@@ -458,15 +458,18 @@ def verify():
 @app.route('/webhook', methods=['POST'])
 def webhook():
     data = request.json
+    print("RAW DATA:", data)
     try:
         entry   = data['entry'][0]['changes'][0]['value']
         message = entry['messages'][0]
         sender  = message['from']
         text    = message['text']['body']
+        print(f"FROM: {sender} | TEXT: {text}")
         reply   = handle_command(sender, text)
         send_wa(sender, reply)
-    except (KeyError, IndexError, TypeError):
-        pass  # read receipts, status updates — ignore
+    except Exception as e:
+        print("WEBHOOK ERROR:", e)
+        print("DATA WAS:", data)
     return "OK", 200
 
 
