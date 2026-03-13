@@ -29,7 +29,7 @@ sessions = {}
 
 # ── WhatsApp Sender ───────────────────────────────────────────────────────────
 def send_wa(to: str, message: str):
-    url = f"https://graph.facebook.com/v19.0/{WA_PHONE_ID}/messages"
+    url = f"https://graph.facebook.com/v22.0/{WA_PHONE_ID}/messages"
     headers = {"Authorization": f"Bearer {WA_TOKEN}", "Content-Type": "application/json"}
     payload = {
         "messaging_product": "whatsapp",
