@@ -141,14 +141,16 @@ def cli_balance() -> str:
 
 # ── Technical Indicators ──────────────────────────────────────────────────────
 def get_btc_prices(days=60):
-    url = "https://api.binance.com/api/v3/klines"
+    url = "https://api.kraken.com/0/public/OHLC"
     resp = requests.get(url, params={
-        "symbol": "BTCUSDT",
-        "interval": "1d",
-        "limit": days
+        "pair": "XBTUSD",
+        "interval": 1440  # daily candles
     }, timeout=10)
     resp.raise_for_status()
-    return [float(k[4]) for k in resp.json()]  # closing prices
+    data = resp.json()
+    pair_key = list(data["result"].keys())[0]
+    candles = data["result"][pair_key]
+    return [float(c[4]) for c in candles[-days:]]  # closing prices
 
 
 def calc_rsi(prices, period=14):
