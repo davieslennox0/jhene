@@ -1,0 +1,15 @@
+cat > ~/btc-whatsapp-bot/fly.toml << 'EOF'
+app = "btc-whatsapp-bot"
+primary_region = "lhr"
+
+[http_service]
+  internal_port = 5000
+  force_https = true
+  auto_stop_machines = false
+  min_machines_running = 1
+
+[[vm]]
+  memory = "256mb"
+  cpu_kind = "shared"
+  cpus = 1
+EOF
