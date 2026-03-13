@@ -141,13 +141,14 @@ def cli_balance() -> str:
 
 # ── Technical Indicators ──────────────────────────────────────────────────────
 def get_btc_prices(days=60):
-    resp = requests.get(
-        "https://api.coingecko.com/api/v3/coins/bitcoin/market_chart",
-        params={"vs_currency": "usd", "days": days, "interval": "daily"},
-        timeout=10
-    )
+    url = "https://api.binance.com/api/v3/klines"
+    resp = requests.get(url, params={
+        "symbol": "BTCUSDT",
+        "interval": "1d",
+        "limit": days
+    }, timeout=10)
     resp.raise_for_status()
-    return [p[1] for p in resp.json()["prices"]]
+    return [float(k[4]) for k in resp.json()]  # closing prices
 
 
 def calc_rsi(prices, period=14):
